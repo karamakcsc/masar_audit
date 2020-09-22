@@ -131,3 +131,16 @@ doctype_js = {
 # 	"Task": "masar_audit.task.get_dashboard_data"
 # }
 
+fixtures = [
+    {"dt": "Custom Field", "filters": [
+        [
+            "name", "in", [
+                "Quotation-quotation_documents",
+		"Quotation-quotation_document_template",
+		"Quotation-section_break_34"
+            ]
+        ]
+    ]}
+]
+
+
