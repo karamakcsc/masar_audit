@@ -1,0 +1,48 @@
+{
+ "autoname": "field:document_code",
+ "creation": "2020-09-16 13:53:40.200024",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "document_code",
+  "document_description"
+ ],
+ "fields": [
+  {
+   "fieldname": "document_code",
+   "fieldtype": "Data",
+   "label": "Document Code",
+   "unique": 1
+  },
+  {
+   "fieldname": "document_description",
+   "fieldtype": "Data",
+   "label": "Document Description"
+  }
+ ],
+ "modified": "2020-09-16 13:55:47.017433",
+ "modified_by": "Administrator",
+ "module": "Masar Audit",
+ "name": "Required Document",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "document_description",
+ "track_changes": 1
+}

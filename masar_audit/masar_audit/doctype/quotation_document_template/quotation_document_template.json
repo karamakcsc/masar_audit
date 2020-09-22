@@ -1,0 +1,49 @@
+{
+ "autoname": "field:template_description",
+ "creation": "2020-09-16 15:22:44.408878",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "template_description",
+  "required_documents"
+ ],
+ "fields": [
+  {
+   "fieldname": "template_description",
+   "fieldtype": "Data",
+   "label": "Template Description",
+   "unique": 1
+  },
+  {
+   "fieldname": "required_documents",
+   "fieldtype": "Table",
+   "label": "Required Documents",
+   "options": "Quotation Document Template Detail"
+  }
+ ],
+ "modified": "2020-09-19 15:21:57.542003",
+ "modified_by": "Administrator",
+ "module": "Masar Audit",
+ "name": "Quotation Document Template",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "template_description",
+ "track_changes": 1
+}
