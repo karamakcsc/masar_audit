@@ -137,7 +137,8 @@ fixtures = [
             "name", "in", [
                 "Quotation-quotation_documents",
 		"Quotation-quotation_document_template",
-		"Quotation-section_break_34"
+		"Quotation-section_break_34",
+		"Quotation-yasser"
             ]
         ]
     ]}
