@@ -10,7 +10,7 @@ frappe.ui.form.on("Project", "refresh", function(frm) {
         return}
 
       frappe.call({
-    		method: "masar_gt.custom.project.project.make_deferred_revenue_settlement_journal_entry",
+    		method: "masar_audit.custom.project.project.make_deferred_revenue_settlement_journal_entry",
     		args: { company: frm.doc.company,
                 revenue_account: frm.doc.revenue,
                 deferred_revenue_account: frm.doc.deferred_revenue,
@@ -33,7 +33,7 @@ frappe.ui.form.on("Project", "refresh", function(frm) {
         return}
 
       frappe.call({
-		method: "masar_gt.custom.project.project.make_unbilled_revenue_settlement_journal_entry",
+		method: "masar_audit.custom.project.project.make_unbilled_revenue_settlement_journal_entry",
 		args: { company: frm.doc.company,
             sales_order: frm.doc.sales_order,
             wip_account: frm.doc.wip_clients,
@@ -57,7 +57,7 @@ frappe.ui.form.on("Project", "refresh", function(frm) {
         return}
 
   frappe.call({
-		method: "masar_gt.custom.project.project.make_close_the_wip_account_journal_entry",
+		method: "masar_audit.custom.project.project.make_close_the_wip_account_journal_entry",
 		args: { company: frm.doc.company,
             wip_account: frm.doc.wip_clients,
             unbilled_revenue_account: frm.doc.unbilled_revenue,
@@ -70,7 +70,7 @@ frappe.ui.form.on("Project", "refresh", function(frm) {
 frappe.ui.form.on('Project',  {
     refresh: function(frm) {
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.revenue,
               project: frm.doc.name},
@@ -81,7 +81,7 @@ frappe.ui.form.on('Project',  {
         });
 
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.revenue,
               project: frm.doc.name},
@@ -92,7 +92,7 @@ frappe.ui.form.on('Project',  {
         });
 
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.deferred_revenue,
               project: frm.doc.name},
@@ -103,7 +103,7 @@ frappe.ui.form.on('Project',  {
         });
 
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.wip_clients,
               project: frm.doc.name},
@@ -114,7 +114,7 @@ frappe.ui.form.on('Project',  {
         });
 
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.unbilled_revenue,
               project: frm.doc.name},
@@ -130,7 +130,7 @@ frappe.ui.form.on('Project',  {
 frappe.ui.form.on('Project',  {
     revenue: function(frm) {
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.revenue,
               project: frm.doc.name},
@@ -142,7 +142,7 @@ frappe.ui.form.on('Project',  {
     },
     deferred_revenue: function(frm) {
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.revenue,
               project: frm.doc.name},
@@ -154,7 +154,7 @@ frappe.ui.form.on('Project',  {
     },
     deferred_revenue: function(frm) {
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.deferred_revenue,
               project: frm.doc.name},
@@ -166,7 +166,7 @@ frappe.ui.form.on('Project',  {
     },
     wip_clients: function(frm) {
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.wip_clients,
               project: frm.doc.name},
@@ -178,7 +178,7 @@ frappe.ui.form.on('Project',  {
     },
     unbilled_revenue: function(frm) {
       frappe.call({
-      method: "masar_gt.custom.project.project.get_balance_on",
+      method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.unbilled_revenue,
               project: frm.doc.name},
