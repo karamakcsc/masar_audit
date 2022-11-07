@@ -88,8 +88,7 @@ app_license = "MIT"
 # }
 
 doctype_js = {
-    "Quotation" : "custom/Quotation/quotation.js",
-    "Project" : "custom/project/project.js"
+        "Project" : "custom/project/project.js"
  }
 
 # Scheduled Tasks
@@ -136,9 +135,6 @@ fixtures = [
     {"dt": "Custom Field", "filters": [
         [
             "name", "in", [
-                "Quotation-quotation_documents",
-                "Quotation-quotation_document_template",
-                "Quotation-section_break_34",
                 "Project-column_break_21",
         		"Project-revenue",
         		"Project-wip_clients",
