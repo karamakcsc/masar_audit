@@ -7,8 +7,8 @@ from frappe.custom.doctype.custom_field.custom_field import create_custom_field
 from erpnext.accounts.utils import get_fiscal_year
 
 @frappe.whitelist()
-def make_deferred_revenue_settlement_journal_entry(company,revenue_account, deferred_revenue_account, posting_date=None, party_type=None, party=None, cost_center=None,
-							project=None,save=True, submit=True):
+def make_deferred_revenue_settlement_journal_entry(company,sales_order,revenue_account, deferred_revenue_account, posting_date=None, party_type=None, party=None, cost_center=None,
+							branch=None, project=None,percent_complete=0.0,save=True, submit=True):
 		if not deferred_revenue_account:
 			msgprint("Please set deferred revenue account")
 			return
@@ -17,12 +17,17 @@ def make_deferred_revenue_settlement_journal_entry(company,revenue_account, defe
 			msgprint("Please set revenue account")
 			return
 
-		amount = get_balance_on(account=deferred_revenue_account,project=project)
+		amount = get_balance_on(account=deferred_revenue_account,project=project,cost_center=cost_center,branch=branch)
 		if amount >= 0:
 			msgprint("There is no credit balance on the deferred revenue account to be settled")
 			return
 		else:
 			amount = abs(amount)
+
+		net_total = flt(frappe.db.get_value('Sales Order', sales_order, 'net_total'))
+		completed_amount = flt(net_total) *flt(percent_complete) / 100
+		if amount > flt(completed_amount):
+			amount = completed_amount
 
 		jv = frappe.new_doc("Journal Entry")
 		jv.posting_date = posting_date or nowdate()
@@ -30,14 +35,20 @@ def make_deferred_revenue_settlement_journal_entry(company,revenue_account, defe
 		jv.user_remark = "Settle Deferred Revenue for Project" + project
 		jv.multi_currency = 0
 		jv.project = project
+		jv.cost_center = cost_center
+		jv.branch = branch
 		jv.set("accounts", [
 			{
 				"account": deferred_revenue_account,
 				"project": project,
+				"branch": branch,
+				"cost_center": cost_center,
 				"debit_in_account_currency": amount
 			}, {
 				"account": revenue_account,
 				"project": project,
+				"branch": branch,
+				"cost_center": cost_center,
 				"credit_in_account_currency": amount
 			}
 		])
@@ -55,7 +66,7 @@ def make_deferred_revenue_settlement_journal_entry(company,revenue_account, defe
 
 @frappe.whitelist()
 def make_unbilled_revenue_settlement_journal_entry(company,sales_order,wip_account, unbilled_revenue_account, posting_date=None, party_type=None, party=None, cost_center=None,
-							project=None,percent_complete=0.0,save=True, submit=True):
+							branch=None, project=None,percent_complete=0.0,save=True, submit=True):
 
 		percent_complete = float(percent_complete)
 		if not wip_account:
@@ -83,14 +94,20 @@ def make_unbilled_revenue_settlement_journal_entry(company,sales_order,wip_accou
 		jv.user_remark = "Settle unbilled Revenue for Project" + project
 		jv.multi_currency = 0
 		jv.project = project
+		jv.cost_center = cost_center
+		jv.branch = branch
 		jv.set("accounts", [
 			{
 				"account": wip_account,
 				"project": project,
+				"branch": branch,
+				"cost_center": cost_center,
 				"debit_in_account_currency": amount
 			}, {
 				"account": unbilled_revenue_account,
 				"project": project,
+				"branch": branch,
+				"cost_center": cost_center,
 				"credit_in_account_currency": amount
 			}
 		])
@@ -130,14 +147,20 @@ def make_close_the_wip_account_journal_entry(company, wip_account, unbilled_reve
 		jv.user_remark = "Settle Deferred Revenue for Project" + project
 		jv.multi_currency = 0
 		jv.project = project
+		jv.cost_center = cost_center
+		jv.branch = branch
 		jv.set("accounts", [
 			{
 				"account": unbilled_revenue_account,
 				"project": project,
+				"branch": branch,
+				"cost_center": cost_center,
 				"debit_in_account_currency": amount
 			}, {
 				"account": wip_account,
 				"project": project,
+				"branch": branch,
+				"cost_center": cost_center,
 				"credit_in_account_currency": amount
 			}
 		])
@@ -164,6 +187,7 @@ def get_balance_on(
 	in_account_currency=True,
 	cost_center=None,
 	project=None,
+	branch=None,
 	ignore_account_permission=False,
 ):
 	if not account and frappe.form_dict.get("account"):
@@ -178,6 +202,8 @@ def get_balance_on(
 		cost_center = frappe.form_dict.get("cost_center")
 	if not project and frappe.form_dict.get("project"):
 		project = frappe.form_dict.get("project")
+	if not branch and frappe.form_dict.get("branch"):
+		branch = frappe.form_dict.get("branch")
 
 	cond = ["is_cancelled=0"]
 	if date:
@@ -222,6 +248,9 @@ def get_balance_on(
 
 	if project:
 		cond.append("""gle.project = %s """ % (frappe.db.escape(project, percent=False),))
+
+	if branch:
+		cond.append("""gle.branch = %s """ % (frappe.db.escape(branch, percent=False),))
 
 	if account:
 

@@ -1,3 +1,4 @@
+
 frappe.ui.form.on("Project", "refresh", function(frm) {
     frm.add_custom_button(__("Deferred Revenue Settlement"), function() {
 
@@ -9,12 +10,15 @@ frappe.ui.form.on("Project", "refresh", function(frm) {
         frappe.msgprint("Please Set Deferred Revenue Account")
         return}
 
+
       frappe.call({
     		method: "masar_audit.custom.project.project.make_deferred_revenue_settlement_journal_entry",
     		args: { company: frm.doc.company,
+                sales_order: frm.doc.sales_order,
                 revenue_account: frm.doc.revenue,
                 deferred_revenue_account: frm.doc.deferred_revenue,
-                project: frm.doc.name},
+                project: frm.doc.name,
+                percent_complete: frm.doc.percent_complete},
     	         });
 
           }, __("Manage"));
@@ -39,6 +43,8 @@ frappe.ui.form.on("Project", "refresh", function(frm) {
             wip_account: frm.doc.wip_clients,
             unbilled_revenue_account: frm.doc.unbilled_revenue,
             project: frm.doc.name,
+            cost_center: frm.doc.cost_center,
+            branch: frm.doc.branch,
             percent_complete: frm.doc.percent_complete},
 	         });
 
@@ -61,7 +67,9 @@ frappe.ui.form.on("Project", "refresh", function(frm) {
 		args: { company: frm.doc.company,
             wip_account: frm.doc.wip_clients,
             unbilled_revenue_account: frm.doc.unbilled_revenue,
-            project: frm.doc.name},
+            project: frm.doc.name,
+            cost_center: frm.doc.cost_center,
+            branch: frm.doc.branch},
 	         });
 
       }, __("Manage"));
@@ -73,7 +81,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.revenue,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("revenue_balance",r.message)
 
@@ -84,7 +94,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.revenue,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("revenue_balance",r.message)
 
@@ -95,7 +107,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.deferred_revenue,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("deferred_revenue_balance",r.message)
 
@@ -106,7 +120,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.wip_clients,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("wip_clients_balance",r.message)
 
@@ -117,7 +133,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.unbilled_revenue,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("unbilled_revenue_balance",r.message)
 
@@ -133,7 +151,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.revenue,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("revenue_balance",r.message)
 
@@ -145,7 +165,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.revenue,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("revenue_balance",r.message)
 
@@ -157,7 +179,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.deferred_revenue,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("deferred_revenue_balance",r.message)
 
@@ -169,7 +193,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.wip_clients,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("wip_clients_balance",r.message)
 
@@ -181,7 +207,9 @@ frappe.ui.form.on('Project',  {
       method: "masar_audit.custom.project.project.get_balance_on",
       args: { company: frm.doc.company,
               account: frm.doc.unbilled_revenue,
-              project: frm.doc.name},
+              project: frm.doc.name,
+              cost_center: frm.doc.cost_center,
+              branch: frm.doc.branch},
       callback: function(r) {
               frm.set_value("unbilled_revenue_balance",r.message)
 
